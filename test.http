@@ -1,0 +1,20 @@
+#
+POST http://localhost:8000/predict HTTP/1.1
+content-type: application/json
+
+{
+    "name": "LogisticRegression",
+    "dered_i": 19.9567,
+    "dered_z": 19.6045,
+    "dered_u": 21.4419,
+    "dered_g": 21.2481,
+    "dered_r": 20.6801,
+    "extinction_r": 0.08351,
+    "run": 752,
+    "camCol": 1,
+    "field": 196,
+    "obj": 106,
+    "photoz": 0.85292,
+    "ra": 172.97188,
+    "dec": -1.131
+}

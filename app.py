@@ -3,6 +3,7 @@ from fastapi import FastAPI, Response
 from fastapi import responses
 from models import Model
 from customtypes import DataItemType, PredItemType
+import uvicorn
 
 app = FastAPI()
 model = Model()
@@ -18,14 +19,18 @@ async def root(response: Response):
 
 
 @app.post("/predict", status_code=200)
-async def predict(data: DataItemType, name: str, response: Response):
+async def predict(data: DataItemType, response: Response):
     try:
-        model.select(name)
+        model.select(data.name)
         prediction: PredItemType = model.prediction(data)
         return {"message": f"Predicted class is : {prediction}"}
     except IndexError:
         response.status_code = 400
         return {"message": "Specified Model is not available, pick correct model name"}
-    except Exception:
+    except Exception as e:
         response.status_code = 500
+        print(str(e))
         return {"message": "Something went wrong with the prediction, please try again"}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

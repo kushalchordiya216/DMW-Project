@@ -1,7 +1,7 @@
-from typing import List
 import numpy as np
+import pandas as pd
 import pickle
-from customtypes import PredItemType
+from customtypes import PredItemType, DataItemType
 
 
 class Model:
@@ -21,6 +21,13 @@ class Model:
             raise IndexError
         self.model = self.classifiers[model_name]
 
-    def prediction(self, data: List[float]) -> PredItemType:
-        inp = np.array(data)
-        return self.model.predict(inp)
+    def prediction(self, data: DataItemType) -> PredItemType:
+        input = []
+        for d in data:
+            if d[0] != "name":
+                input.append(d[1])
+        inp: np.ndarray = np.array(input)
+        inp = np.reshape(inp, (1, -1))
+        df = pd.DataFrame(
+            inp, columns=["dered_i", "dered_z", "dered_u", "dered_g", "dered_r", "extinction_r", "run", "camCol", "field", "obj", "photoz", "ra", "dec"])
+        return self.model.predict(df)

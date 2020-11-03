@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 
 class DataItemType(BaseModel):
+    name: str
     dered_i: float
     dered_z: float
     dered_u: float

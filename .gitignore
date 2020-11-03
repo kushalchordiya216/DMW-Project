@@ -1,1 +1,5 @@
 models/*
+.vscode/*
+__pychache__/*
+__pycache__/customtypes.cpython-38.pyc
+__pycache__/models.cpython-38.pyc
