@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 import pickle
-from customtypes import PredItemType, DataItemType
+from customtypes import DataItemType
+from typing import Dict
 
 
 class Model:
@@ -11,6 +12,7 @@ class Model:
         self.classifiers: dict = {}
         self.load_models()
         self.model = None
+        self.classes: Dict[int, str] = {0: "Star", 1: "Galaxy", 2: "None"}
 
     def load_models(self):
         for name in self.names:
@@ -21,7 +23,7 @@ class Model:
             raise IndexError
         self.model = self.classifiers[model_name]
 
-    def prediction(self, data: DataItemType) -> PredItemType:
+    def prediction(self, data: DataItemType) -> str:
         input = []
         for d in data:
             if d[0] != "name":
@@ -30,4 +32,5 @@ class Model:
         inp = np.reshape(inp, (1, -1))
         df = pd.DataFrame(
             inp, columns=["dered_i", "dered_z", "dered_u", "dered_g", "dered_r", "extinction_r", "run", "camCol", "field", "obj", "photoz", "ra", "dec"])
-        return self.model.predict(df)
+        pred = self.model.predict(df)
+        return self.classes[pred[0]]

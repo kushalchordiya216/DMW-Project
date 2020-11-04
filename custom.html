@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Astronomy Classsifier</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container mt-3">
+    <h2>Astronomy Classifier</h2>
+    <hr>
+    <br>
+    <form id="form" method="POST">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="dered_i">Dered_i</label>
+          <input type="number" step="0.00001" class="form-control" name="dered_i" placeholder="Enter Value">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="dered_z">Dered_z</label>
+          <input type="number" step="0.00001" class="form-control" name="dered_z" placeholder="Enter Value">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="dered_u">Dered_u</label>
+          <input type="number" step="0.00001" class="form-control" name="dered_u" placeholder="Enter Value">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="dered_g">Dered_g</label>
+          <input type="number" step="0.00001" class="form-control" name="dered_g" placeholder="Enter Value">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="dered_r">Dered_r</label>
+          <input type="number" step="0.00001" class="form-control" name="dered_r" placeholder="Enter Value">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="extinction_r">Extinction_r</label>
+          <input type="number" step="0.00001" class="form-control" name="extinction_r" placeholder="Enter Value">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="run">Run</label>
+          <input type="number" step="0.00001" class="form-control" name="run" placeholder="Enter Value">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="camCol">camCol</label>
+          <input type="number" step="0.00001" class="form-control" name="camCol" placeholder="Enter Value">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="field">Field</label>
+          <input type="number" step="0.00001" class="form-control" name="field" placeholder="Enter Value">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="obj">Obj</label>
+          <input type="number" step="0.00001" class="form-control" name="obj" placeholder="Enter Value">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="photoz">Photoz</label>
+          <input type="number" step="0.00001" class="form-control" name="photoz" placeholder="Enter Value">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="ra">RA</label>
+          <input type="number" step="0.00001" class="form-control" name="ra" placeholder="Enter Value">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="dec">DEC</label>
+          <input type="number" step="0.00001" class="form-control" name="dec" placeholder="Enter Value">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="name">Clasifier</label>
+          <select name="name" step="0.00001" class="form-control">
+            <option selected>Select Classifier</option>
+            <option value="RandomForest">Random Forest</option>
+            <option value="GradientBoosting">Gradient Boosting</option>
+            <option value="XGBoost">XG Boost</option>
+            <option value="AdaBoost">AdaBoost</option>
+            <option value="GaussianNB">Gaussian NB</option>
+            <option value="LogisticRegression">LogisticRegression</option>
+            <option value="MLP">MLP</option>
+            <option value="SVC">SVC</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Get Result</button>
+    </form>
+    <div>
+      <br>
+      RESULT
+      <textarea rows="1" id='result'>Predicted Class is STAR</textarea>
+      <div>
+</body>
+
+<script type="text/javascript">
+  let sortDirection = false;
+
+  const url = "http://localhost:8000/predict"
+  document.addEventListener('DOMContentLoaded', () => {
+    document
+      .getElementById('form')
+      .addEventListener('submit', handleForm)
+  });
+
+  async function handleForm(ev) {
+    ev.preventDefault();
+    let form = ev.target;
+    let fd = new FormData(form);
+    let json = await convertFD2JSON(fd);
+    console.log(json);
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: json
+    };
+    fetch(url, options).then(async (response) => {
+      resp = await response.json()
+      document.getElementById('result').innerHTML = resp['message']
+    });
+  }
+
+  function convertFD2JSON(FormData) {
+    var response = {};
+    for (let key of FormData.keys())
+      response[key] = FormData.get(key);
+    console.log(response)
+    return JSON.stringify(response);
+  }
+
+</script>
+
+</html>

@@ -17,9 +17,3 @@ class DataItemType(BaseModel):
     photoz: float
     ra: float
     dec: float
-
-
-class PredItemType(enum.Enum):
-    zero = 0
-    one = 1
-    two = 2

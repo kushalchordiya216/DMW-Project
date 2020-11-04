@@ -1,12 +1,15 @@
 from models import Model
 from fastapi import FastAPI, Response
-from fastapi import responses
+from fastapi.middleware.cors import CORSMiddleware
 from models import Model
-from customtypes import DataItemType, PredItemType
+from customtypes import DataItemType
 import uvicorn
 
 app = FastAPI()
 model = Model()
+
+app.add_middleware(CORSMiddleware,
+                   allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 
 @app.get("/", status_code=200)
@@ -22,7 +25,7 @@ async def root(response: Response):
 async def predict(data: DataItemType, response: Response):
     try:
         model.select(data.name)
-        prediction: PredItemType = model.prediction(data)
+        prediction: str = model.prediction(data)
         return {"message": f"Predicted class is : {prediction}"}
     except IndexError:
         response.status_code = 400
