@@ -31,7 +31,7 @@
     }
 </style>
 
-<!--style>         //for progress bar
+<style>        
   #myProgress {
     width: 100%;
     background-color: #ddd;
@@ -42,7 +42,7 @@
     height: 30px;
     background-color: #4CAF50;
   }
-  </style-->
+  </style>
 
 
 </head>
@@ -50,7 +50,7 @@
     <h2>Astronomy Classifier</h2>
     <hr>
     <br>
-    <form class="md-form">
+    <!--form class="md-form"-->
         <div class="file-field">
           <div class="d-flex justify-content-left" class = "form-row">
             <div class="btn btn-mdb-color btn-rounded float-left">
@@ -70,22 +70,22 @@
                 <input type="file">
               </div>
               <div class="d-flex justify-content-right">
-                <button type="submit" class="btn btn-primary">Test</button>
-                <!--button type="submit" class="btn btn-primary" onclick="move()">Test   // for progress bar
-                </button-->   
+                <!--button type="submit" class="btn btn-primary">Test</button-->
+                <button type="submit" class="btn btn-primary" onclick="move()">Test   
+                </button>   
               </div>
               
             </div>
             <br>
-            <!--div id="myProgress">      //for progress bar
+            <div id="myProgress">      
               <div id="myBar"></div>
-            </div-->
+            </div>
           </div>
           <br>
         
 <hr />
 <div id="dvTable"></div>
-      </form>
+      <!--/form-->
       
       
       
@@ -93,7 +93,7 @@
       <br>
       <input type="button" class="btn btn-primary" value="Generate Table" onclick="GenerateTable()" />
 
-      <!--script>                            // for progress bar
+      <script>                            
         var i = 0;
         function move() {
           if (i == 0) {
@@ -112,7 +112,7 @@
             }
           }
         }
-        </script-->
+        </script>
 
         <br>
 
