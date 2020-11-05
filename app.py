@@ -1,9 +1,13 @@
-from models import Model
-from fastapi import FastAPI, Response
+import json
+
+from fastapi import FastAPI, Response, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+import pandas as pd
+
 from models import Model
 from customtypes import DataItemType
-import uvicorn
+
 
 app = FastAPI()
 model = Model()
@@ -34,6 +38,19 @@ async def predict(data: DataItemType, response: Response):
         response.status_code = 500
         print(str(e))
         return {"message": "Something went wrong with the prediction, please try again"}
+
+
+@app.post("/test", status_code=200)
+async def test(file: UploadFile = File(...)):
+    df = ConvertBytesToDataFrame(file)
+    return model.test
+
+
+def ConvertBytesToDataFrame(bytes):
+    data = bytes.decode('utf-8').splitlines()
+    df = pd.DataFrame(data)
+    return df
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
